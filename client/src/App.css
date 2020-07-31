@@ -1,0 +1,15 @@
+.App {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(241, 241, 241);
+}
+.login-cont{
+  width: 500px;
+  background: white;
+  padding: 3%;
+  border: 1px gray;
+  border-radius: 2px;
+  box-shadow: 1px 2px 10px rgb(214, 214, 214) ;
+}
