@@ -9,7 +9,10 @@ require("dotenv").config();
 const MONGO_URI = process.env.MONGO_URI;
 
 mongoose
-    .connect(MONGO_URI, {dbName: "SanKash"})
+    .connect(
+        "mongodb+srv://sburade3:twkJY3j1DPyxZNzp@mongodb1-hbinz.mongodb.net/sankash?retryWrites=true&w=majority",
+        {dbName: "SanKash"}
+    )
     .then(result => {
         console.log("result : connected");
     })
