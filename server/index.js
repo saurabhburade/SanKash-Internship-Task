@@ -11,7 +11,7 @@ const MONGO_URI = process.env.MONGO_URI;
 mongoose
     .connect(MONGO_URI, {dbName: "SanKash"})
     .then(result => {
-        console.log("result connected");
+        console.log("result : connected");
     })
     .catch(err => {
         console.log("err", err);
@@ -20,7 +20,7 @@ mongoose
 app.use(express.json());
 app.use(morgan());
 app.use(cors());
-app.use(userRoutes);
+app.use("/api",userRoutes);
 
 app.listen(PORT, () => {
     console.log("Connected", PORT);

@@ -44,7 +44,7 @@ class Signup extends Component {
             type: this.state.type,
         };
         axios
-            .post("http://localhost:8000/signup", data)
+            .post("/api/signup", data)
             .then(res => {
                 console.log("res", res);
                 this.setState({

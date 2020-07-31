@@ -35,7 +35,7 @@ class Login extends Component {
             password: this.state.password,
         };
         axios
-            .post("http://localhost:8000/login", data)
+            .post("/api/login", data)
             .then(res => {
                 console.log("res", res);
                 this.setState({
