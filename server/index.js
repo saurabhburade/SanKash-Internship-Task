@@ -11,7 +11,7 @@ const path=require('path');
 
 mongoose
     .connect(
-        "mongodb+srv://sburade3:twkJY3j1DPyxZNzp@mongodb1-hbinz.mongodb.net/sankash?retryWrites=true&w=majority",
+        MONGO_URI,
         {dbName: "SanKash"}
     )
     .then(result => {
