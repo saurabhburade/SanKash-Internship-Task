@@ -1,6 +1,7 @@
 const User = require("../models/users.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Image = require("../models/images.model");
 require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -25,7 +26,7 @@ const signup = (req, res) => {
                     console.log("data", data);
                     res.status(200).json({
                         username: data.username,
-                        token:data.token,
+                        token: data.token,
                         type: data.type,
                     });
                 })
@@ -36,7 +37,7 @@ const signup = (req, res) => {
     });
 };
 
-const login=(req, res) => {
+const login = (req, res) => {
     const {username, password} = req.body;
     User.findOne({username}, (err, result) => {
         if (result) {
@@ -58,6 +59,109 @@ const login=(req, res) => {
             });
         }
     });
-}
+};
+const profile = (req, res) => {
+    const {token} = req.headers;
+    console.log(req.headers);
+    User.findOne({token})
+        .then(user => {
+            console.log(user);
+            if (user) {
+                switch (user.type) {
+                    case "A":
+                        Image.find({imageName: "image1"}, (err, images) => {
+                            if (err) throw err;
+                            if (images.length) {
+                                res.status(200).json({
+                                    username: user.username,
+                                    type: user.type,
+                                    images,
+                                });
+                            } else {
+                                res.status(200).json({
+                                    username: user.username,
+                                    type: user.type,
+                                });
+                            }
+                        });
 
-module.exports={login,signup}
+                        break;
+                    case "B":
+                        Image.find(
+                            {imageName: {$in: ["image1", "image2"]}},
+                            (err, images) => {
+                                if (err) throw err;
+                                if (images.length) {
+                                    res.status(200).json({
+                                        username: user.username,
+                                        type: user.type,
+                                        images,
+                                    });
+                                } else {
+                                    res.status(200).json({
+                                        username: user.username,
+                                        type: user.type,
+                                    });
+                                }
+                            }
+                        );
+
+                        break;
+                    case "C":
+                        Image.find(
+                            {imageName: {$in: ["image2", "image3"]}},
+                            (err, images) => {
+                                if (err) throw err;
+                                if (images.length) {
+                                    res.status(200).json({
+                                        username: user.username,
+                                        type: user.type,
+                                        images,
+                                    });
+                                } else {
+                                    res.status(200).json({
+                                        username: user.username,
+                                        type: user.type,
+                                    });
+                                }
+                            }
+                        );
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(404).json({
+                error: "User not found",
+            });
+        });
+};
+const imageUpload = (req, res) => {
+    const {imageName, data} = req.body;
+    const newImage = new Image({
+        imageName,
+        data,
+    });
+    newImage
+        .save()
+        .then(result => {
+            res.status(200).json({message: "success"});
+        })
+        .catch(err => {
+            res.status(400).json({error: "failed"});
+        });
+};
+const allImages = (req, res) => {
+    Image.find()
+        .then(images => {
+            res.status(200).json(images);
+        })
+        .catch(err => {
+            res.status(400).json({error: "failed"});
+        });
+};
+module.exports = {login, signup, profile, imageUpload, allImages};

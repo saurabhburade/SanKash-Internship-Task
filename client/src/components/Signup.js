@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Form, Button, Modal, Col} from "react-bootstrap";
 import Dashboard from "./Dashboard";
 import axios from "axios";
+import { isAuth } from './../config/auth';
 
 class Signup extends Component {
     constructor(props) {
@@ -69,13 +70,9 @@ class Signup extends Component {
         });
     };
     render() {
-        if (this.state.data.username) {
-            return (
-                <Dashboard
-                    username={this.state.data.username}
-                    type={this.state.data.type}
-                />
-            );
+        if (isAuth() || this.state.data.username) {
+           window.location.href = "/dashboard";
+          
         }
         return (
             <div className="cont">

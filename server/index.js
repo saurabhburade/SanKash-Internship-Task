@@ -10,12 +10,15 @@ const MONGO_URI = process.env.MONGO_URI;
 const path=require('path');
 
 mongoose
-    .connect(MONGO_URI, {dbName: "SanKash"})
+    .connect(
+        "mongodb+srv://sburade3:twkJY3j1DPyxZNzp@mongodb1-hbinz.mongodb.net/sankash?retryWrites=true&w=majority",
+        {dbName: "SanKash"}
+    )
     .then(result => {
         console.log("result : connected");
     })
     .catch(err => {
-        console.log("err", err)
+        console.log("err", err);
     });
 
 app.use(express.json());
@@ -30,6 +33,7 @@ if (process.env.NODE_ENV === "production") {
         );
     });
 }
+
 app.listen(PORT, () => {
     console.log("Connected", PORT);
 });
